@@ -1,21 +1,19 @@
 <template>
   <v-app >
     <v-main class="background-image">
-      <main_component/>
+      <router-view/>
+      <LeaderBoard id="bottom_leader_board_button"></LeaderBoard>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import main_component from './components/Main.vue'
-
+import LeaderBoard from '@/components/LeaderBoard.vue';
 export default {
   name: 'App',
-
   components: {
-    main_component,
+    LeaderBoard
   },
-
   data: () => ({
     //
   }),
@@ -26,6 +24,13 @@ export default {
     background-image: url('@/assets/img/winter_background_img.png');
     background-size: cover;
     background-position: center;
-    /* 다른 배경 스타일 속성을 여기에 추가 */
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    height: 100vh; /* 화면 높이의 100%로 설정하여 세로 중앙 정렬을 수행 */
+
+  }
+  #bottom_leader_board_button {
+  position: fixed;
+  width:10%; bottom:0;
   }
 </style>
