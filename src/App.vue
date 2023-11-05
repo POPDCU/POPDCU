@@ -2,6 +2,8 @@
   <v-app>
     <v-main @click="handlePageClick" class="background-image">
       <router-view/>
+      <p> mouse : {{ $store.state.mouseClicked }} </p>
+      <p> keyboard : {{ $store.state.keyPressed }} </p>
       <LeaderBoard id="bottom_leader_board_button"></LeaderBoard>
     </v-main>
   </v-app>
@@ -15,8 +17,7 @@ export default {
     LeaderBoard
   },
   data: () => ({
-    mouseClicked: false,
-    keyPressed: false,
+
   }),
   created() {
     // 마우스 down, up감지
@@ -36,17 +37,25 @@ export default {
   },
   methods: {
     handleMouseDown() {
-      this.mouseClicked = true;
+      this.$store.commit('setMouseClicked', true);
+      this.$store.dispatch('updateClickedOrKeyedCount');
     },
     handleMouseUp() {
-      this.mouseClicked = false;
+      this.$store.commit('setMouseClicked', false);
+      this.$store.dispatch('updateClickedOrKeyedCount');
     },
-    handleKeyDown() {
-      this.keyPressed = true;
+    handleKeyDown(event) {
+      if (event.repeat) { // 이벤트 반복일 경우 무시
+        return;
+      }
+      this.$store.commit('setKeyPressed', true);
+      this.$store.dispatch('updateClickedOrKeyedCount');
     },
     handleKeyUp() {
-      this.keyPressed = false;
-    }
+
+      this.$store.commit('setKeyPressed', false);
+      this.$store.dispatch('updateClickedOrKeyedCount');
+    },
   },
 }
 </script>
@@ -64,4 +73,5 @@ export default {
   position: fixed;
   width:10%; bottom:0;
   }
+
 </style>

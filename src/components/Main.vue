@@ -8,14 +8,22 @@
             contain
             height="150"
           />
-          <p id="college"> {{ college }} </p>
-          <p id="count"> {{ count }} </p>
+          <div id="college"> {{ college }} </div>
+          <div id="count"> {{ $store.state.clickedOrKeyedCount }} </div>
 
-          <v-img id="DcuImage"
+          <img v-if="$store.state.mouseClicked || $store.state.keyPressed" 
+            id="DcuImage"
+            :src="require('@/assets/img/DCU_Click.svg')"
+            class="my-3"
+            contain
+            :style="{ transition: 'none', height: imageHeight }"
+          />
+          <img v-else 
+            id="DcuImage"
             :src="require('@/assets/img/DCU_NoneClick.svg')"
             class="my-3"
             contain
-            :height="imageHeight"
+            :style="{ transition: 'none', height: imageHeight }"
           />
       </v-col>
     </v-row>
@@ -29,7 +37,6 @@ export default {
 
   data() {
     return {
-      count: 0,
       college: "소프트웨어융합대학",
       imageHeight: '700px',
     };
@@ -57,18 +64,25 @@ export default {
 </script>
 
 <style>
+#college {
+  cursor: default !important;
+}
 #count {
   /*position: absolute;*/
-
+  cursor: default !important;
   font-size: 40px;
   font-weight: 900;
   color: #ffffff;
   -webkit-text-stroke-width: 2px;
   -webkit-text-stroke-color: rgb(0, 0, 0);
 }
+#DcuImage {
+    position: relative; /* 또는 absolute; */
+    /* 나머지 스타일 속성들 */
+}
 @media screen and (max-width: 1100px) {
   #DcuImage {
-    top: 10; /* 모바일 화면일 때 top은 0px */
+    top: 10px; /* 모바일 화면일 때 top은 0px */
   }
 }
 
