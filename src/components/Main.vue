@@ -15,7 +15,7 @@
             :src="require('@/assets/img/DCU_NoneClick.svg')"
             class="my-3"
             contain
-            height="700"
+            :height="imageHeight"
           />
       </v-col>
     </v-row>
@@ -31,12 +31,28 @@ export default {
     return {
       count: 0,
       college: "소프트웨어융합대학",
+      imageHeight: '700px',
     };
   },
+  created() {
+    // 화면 너비에 따라 이미지 높이를 조정
+    window.addEventListener('resize', this.adjustImageSize);
+    this.adjustImageSize();
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.adjustImageSize);
+  },
   methods: {
-
-  }
-}
+    adjustImageSize() {
+      // 화면 너비에 따라 이미지 높이를 동적으로 조정
+      if (window.innerWidth < 768) {  // 모바일 화면 크기 (예: 768px)로 조정
+        this.imageHeight = '300px';  // 모바일 환경에서 이미지 높이를 300px로 설정
+      } else {
+        this.imageHeight = '700px';  // 데스크톱 환경에서 이미지 높이를 700px로 설정
+      }
+    },
+  },
+};
 
 </script>
 
@@ -50,8 +66,25 @@ export default {
   -webkit-text-stroke-width: 2px;
   -webkit-text-stroke-color: rgb(0, 0, 0);
 }
-#DcuImage {
-  position: relative;
-  top: 100px; /* 이미지를 20px 아래로 이동합니다. */
+@media screen and (max-width: 1100px) {
+  #DcuImage {
+    top: 10; /* 모바일 화면일 때 top은 0px */
+  }
 }
+
+@media screen and (min-width: 1101px) {
+  #DcuImage {
+    top: 300px; /* 데스크톱 화면일 때 top은 300px */
+  }
+}
+  /* 스크롤 영역만 숨기기 */
+  body {
+    scrollbar-width: none;
+  }
+
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+
 </style>

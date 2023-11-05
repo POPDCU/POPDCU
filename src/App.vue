@@ -1,6 +1,6 @@
 <template>
-  <v-app >
-    <v-main class="background-image">
+  <v-app>
+    <v-main @click="handlePageClick" class="background-image">
       <router-view/>
       <LeaderBoard id="bottom_leader_board_button"></LeaderBoard>
     </v-main>
@@ -15,8 +15,39 @@ export default {
     LeaderBoard
   },
   data: () => ({
-    //
+    mouseClicked: false,
+    keyPressed: false,
   }),
+  created() {
+    // 마우스 down, up감지
+    window.addEventListener('mousedown', this.handleMouseDown);
+    window.addEventListener('mouseup', this.handleMouseUp);
+    // keyboard down, up 감지
+    window.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('keyup', this.handleKeyUp);
+  },
+  beforeUnmount() {
+    // 마우스 down, up감지
+    window.removeEventListener('mousedown', this.handleMouseDown);
+    window.removeEventListener('mouseup', this.handleMouseUp);
+    // keyboard down, up 감지
+    window.removeEventListener('keydown', this.handleKeyDown);
+    window.removeEventListener('keyup', this.handleKeyUp);
+  },
+  methods: {
+    handleMouseDown() {
+      this.mouseClicked = true;
+    },
+    handleMouseUp() {
+      this.mouseClicked = false;
+    },
+    handleKeyDown() {
+      this.keyPressed = true;
+    },
+    handleKeyUp() {
+      this.keyPressed = false;
+    }
+  },
 }
 </script>
 <style scoped>
