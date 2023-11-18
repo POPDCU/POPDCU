@@ -22,6 +22,10 @@ export default new Vuex.Store({
     updateClickedOrKeyedCount({ commit, state }) {
       if (state.mouseClicked || state.keyPressed) {
         commit('incrementClickedOrKeyedCount');
+        if (state.mouseClicked && state.keyPressed) {
+            state.mouseClicked = false;
+            state.keyPressed = false;
+        }
       }
     },
   },
