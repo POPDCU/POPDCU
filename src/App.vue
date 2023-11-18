@@ -1,9 +1,7 @@
 <template>
-  <v-app>
+  <v-app id="app">
     <v-main @click="handlePageClick" class="background-image">
       <router-view/>
-      <p> mouse : {{ $store.state.mouseClicked }} </p>
-      <p> keyboard : {{ $store.state.keyPressed }} </p>
       <LeaderBoard id="bottom_leader_board_button"></LeaderBoard>
     </v-main>
   </v-app>
@@ -73,5 +71,4 @@ export default {
   position: fixed;
   width:10%; bottom:0;
   }
-
 </style>

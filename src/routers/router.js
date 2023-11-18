@@ -1,6 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
 import PopPage from "@/components/Main.vue";
-import TestPage from "@/components/Select_college.vue";
+import SelectCollege from "@/components/Select_college.vue";
 
 const routes = [
     {
@@ -9,10 +9,14 @@ const routes = [
         component: PopPage,
     },
     {
-        path: "/test",
-        name: "TestComponent",
-        component: TestPage,
+        path: "/select",
+        name: "SelectCollege",
+        component: SelectCollege,
     },
+    {
+        path: '/:catchAll(.*)',
+        redirect: '/'
+    }
 ];
 
 const router = createRouter({
