@@ -1,9 +1,7 @@
 <template>
-  <v-app>
+  <v-app id="app">
     <v-main @click="handlePageClick" class="background-image">
       <router-view/>
-      <p> mouse : {{ $store.state.mouseClicked }} </p>
-      <p> keyboard : {{ $store.state.keyPressed }} </p>
       <LeaderBoard id="bottom_leader_board_button"></LeaderBoard>
     </v-main>
   </v-app>
@@ -11,27 +9,43 @@
 
 <script>
 import LeaderBoard from '@/components/LeaderBoard.vue';
+
 export default {
   name: 'App',
   components: {
     LeaderBoard
   },
   data: () => ({
-
   }),
   created() {
-    // 마우스 down, up감지
-    window.addEventListener('mousedown', this.handleMouseDown);
-    window.addEventListener('mouseup', this.handleMouseUp);
-    // keyboard down, up 감지
+    if ('ontouchstart' in window) {
+      // 모바일 환경일 경우에만 터치 이벤트 리스너 등록
+      window.addEventListener('touchstart', this.handleTouchStart);
+      window.addEventListener('touchend', this.handleTouchEnd);
+      window.addEventListener('touchmove', this.handleTouchMove);
+    } else {
+      // 모바일이 아닌 환경에서는 마우스 이벤트 리스너 등록
+      window.addEventListener('mousedown', this.handleMouseDown);
+      window.addEventListener('mouseup', this.handleMouseUp);
+    }
+
+    // 키보드 이벤트 리스너 등록
     window.addEventListener('keydown', this.handleKeyDown);
     window.addEventListener('keyup', this.handleKeyUp);
   },
   beforeUnmount() {
-    // 마우스 down, up감지
-    window.removeEventListener('mousedown', this.handleMouseDown);
-    window.removeEventListener('mouseup', this.handleMouseUp);
-    // keyboard down, up 감지
+    if ('ontouchstart' in window) {
+      // 모바일 환경일 경우에만 터치 이벤트 리스너 제거
+      window.removeEventListener('touchstart', this.handleTouchStart);
+      window.removeEventListener('touchend', this.handleTouchEnd);
+      window.removeEventListener('touchmove', this.handleTouchMove);
+    } else {
+      // 모바일이 아닌 환경에서는 마우스 이벤트 리스너 제거
+      window.removeEventListener('mousedown', this.handleMouseDown);
+      window.removeEventListener('mouseup', this.handleMouseUp);
+    }
+
+    // 키보드 이벤트 리스너 제거
     window.removeEventListener('keydown', this.handleKeyDown);
     window.removeEventListener('keyup', this.handleKeyUp);
   },
@@ -41,6 +55,14 @@ export default {
       this.$store.dispatch('updateClickedOrKeyedCount');
     },
     handleMouseUp() {
+      this.$store.commit('setMouseClicked', false);
+      this.$store.dispatch('updateClickedOrKeyedCount');
+    },
+    handleTouchStart() {
+      this.$store.commit('setMouseClicked', true);
+      this.$store.dispatch('updateClickedOrKeyedCount');
+    },
+    handleTouchEnd() {
       this.$store.commit('setMouseClicked', false);
       this.$store.dispatch('updateClickedOrKeyedCount');
     },
@@ -73,5 +95,16 @@ export default {
   position: fixed;
   width:10%; bottom:0;
   }
-
+  .app {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+}
+  
 </style>
