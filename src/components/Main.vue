@@ -37,7 +37,7 @@ export default {
 
   data() {
     return {
-      college: "소프트웨어융합대학",
+      college: localStorage.getItem('UserCollege') || "None",
       imageHeight: '700px',
     };
   },
