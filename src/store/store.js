@@ -17,6 +17,10 @@ export default new Vuex.Store({
       state.clickedOrKeyedCount++;
       localStorage.setItem('clickedOrKeyedCount', state.clickedOrKeyedCount);
     },
+    setClickedOrKeyedCount(state, value) {
+        state.clickedOrKeyedCount = value;
+        localStorage.setItem('clickedOrKeyedCount', value);
+      },
   },
   actions: {
     updateClickedOrKeyedCount({ commit, state }) {
@@ -27,6 +31,9 @@ export default new Vuex.Store({
             state.keyPressed = false;
         }
       }
+    },
+    resetClickedOrKeyedCount({ commit }) {
+        commit('setClickedOrKeyedCount', 0);
     },
   },
 });
