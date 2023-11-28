@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 export default new Vuex.Store({
   state: {
     clickedOrKeyedCount: JSON.parse(localStorage.getItem('clickedOrKeyedCount')) || 0,
+    updateCounter: 0,
     mouseClicked: false,
     keyPressed: false,
   },
@@ -15,7 +16,9 @@ export default new Vuex.Store({
     },
     incrementClickedOrKeyedCount(state) {
       state.clickedOrKeyedCount++;
+      state.updateCounter++;
       localStorage.setItem('clickedOrKeyedCount', state.clickedOrKeyedCount);
+      console.log(state.updateCounter)
     },
     setClickedOrKeyedCount(state, value) {
         state.clickedOrKeyedCount = value;

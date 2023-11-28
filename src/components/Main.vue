@@ -32,9 +32,13 @@
 </template>
 
 <script>
+import { updateCount } from '@/api.js';
 
 export default {
   name : 'main_component',
+  mounted() {
+    this.intervalId = setInterval(this.handleUpdateCount, 5000);
+  },
 
   data() {
     return {
@@ -80,7 +84,22 @@ export default {
     window.removeEventListener('keydown', this.handleKeyDown);
     window.removeEventListener('keyup', this.handleKeyUp);
   },
+  beforeDestroy() {
+    clearInterval(this.intervalId);
+  },
   methods: {
+    async handleUpdateCount() {
+      const collegeName = localStorage.getItem('UserCollege'); // 실제 값으로 대체
+      const updateCounter = this.$store.state.updateCounter;
+
+      try {
+        await updateCount(collegeName, updateCounter);
+        this.$store.state.updateCounter = 0
+      } catch (error) {
+        console.error('Error in handleUpdateCount:', error);
+      }
+    },
+
     adjustImageSize() {
       // 화면 너비에 따라 이미지 높이를 동적으로 조정
       if (window.innerWidth < 768) {  // 모바일 화면 크기 (예: 768px)로 조정
