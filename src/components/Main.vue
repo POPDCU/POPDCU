@@ -68,6 +68,7 @@ export default {
     window.addEventListener('keyup', this.handleKeyUp);
   },
   beforeUnmount() {
+    clearInterval(this.intervalId);
     window.removeEventListener('resize', this.adjustImageSize);
     if ('ontouchstart' in window) {
     // 모바일 환경일 경우에만 터치 이벤트 리스너 제거
@@ -84,9 +85,7 @@ export default {
     window.removeEventListener('keydown', this.handleKeyDown);
     window.removeEventListener('keyup', this.handleKeyUp);
   },
-  beforeDestroy() {
-    clearInterval(this.intervalId);
-  },
+
   methods: {
     async handleUpdateCount() {
       const collegeName = localStorage.getItem('UserCollege'); // 실제 값으로 대체
