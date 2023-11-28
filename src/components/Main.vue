@@ -25,6 +25,7 @@
             contain
             :style="{ transition: 'none', height: imageHeight }"
           />
+          
       </v-col>
     </v-row>
   </v-container>
@@ -39,9 +40,12 @@ export default {
     return {
       college: localStorage.getItem('UserCollege') || "None",
       imageHeight: '700px',
+      audio: null,
     };
   },
   created() {
+    this.audio = new Audio(require('@/assets/sound/jumping_sound2.mp3'));
+
     // 화면 너비에 따라 이미지 높이를 조정
     window.addEventListener('resize', this.adjustImageSize);
     this.adjustImageSize();
@@ -88,6 +92,7 @@ export default {
     handleMouseDown() {
       this.$store.commit('setMouseClicked', true);
       this.$store.dispatch('updateClickedOrKeyedCount');
+      this.playSound();
     },
     handleMouseUp() {
       this.$store.commit('setMouseClicked', false);
@@ -96,6 +101,7 @@ export default {
     handleTouchStart() {
       this.$store.commit('setMouseClicked', true);
       this.$store.dispatch('updateClickedOrKeyedCount');
+      this.playSound();
     },
     handleTouchEnd() {
       this.$store.commit('setMouseClicked', false);
@@ -107,11 +113,17 @@ export default {
       }
       this.$store.commit('setKeyPressed', true);
       this.$store.dispatch('updateClickedOrKeyedCount');
+      this.playSound();
     },
     handleKeyUp() {
 
       this.$store.commit('setKeyPressed', false);
       this.$store.dispatch('updateClickedOrKeyedCount');
+    },
+    playSound() {
+      if (this.audio) {
+        this.audio.play();
+      }
     },
   },
 };
